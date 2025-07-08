@@ -145,6 +145,7 @@ nav {
 .btn-primary {
     background-color: var(--accent-blue);
     color: white;
+    scroll-behavior: smooth;
 }
 
 .btn-primary:hover {
@@ -155,6 +156,7 @@ nav {
 .btn-secondary {
     border: 2px solid var(--accent-blue);
     color: var(--text-light);
+    scroll-behavior: smooth;
 }
 
 .btn-secondary:hover {
