@@ -108,7 +108,7 @@ nav {
 .hero-text {
     flex: 1;
     text-align: center;
-   
+   margin-top: 50px;
 }
 
 .hero-text h1 {
