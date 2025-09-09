@@ -3,21 +3,71 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
     
-    mobileMenuBtn.addEventListener('click', function() {
+    // دالة لفتح/إغلاق القائمة
+    function toggleMenu() {
         navLinks.classList.toggle('active');
         mobileMenuBtn.classList.toggle('active');
-    });
+        
+        if (navLinks.classList.contains('active')) {
+            setTimeout(() => {
+                navLinks.classList.add('show');
+                animateMenuItems(true);
+            }, 10);
+        } else {
+            navLinks.classList.remove('show');
+            animateMenuItems(false);
+        }
+    }
     
-    // Close mobile menu when clicking on a link
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', function() {
-            if (window.innerWidth <= 768) {
-                navLinks.classList.remove('active');
-                mobileMenuBtn.classList.remove('active');
+    // دالة لتحريك عناصر القائمة
+    function animateMenuItems(show) {
+        const menuItems = document.querySelectorAll('.nav-links li');
+        menuItems.forEach((item, index) => {
+            if (show) {
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, index * 100 + 100);
+            } else {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(20px)';
             }
         });
+    }
+    
+    // إغلاق القائمة عند النقر خارجها
+    function closeMenu() {
+        navLinks.classList.remove('active', 'show');
+        mobileMenuBtn.classList.remove('active');
+        animateMenuItems(false);
+    }
+    
+    // إعادة تعيين القائمة عند تغيير حجم النافذة
+    function handleResize() {
+        if (window.innerWidth > 768) {
+            // إذا كانت الشاشة كبيرة، تأكد من إغلاق القائمة الموبايل
+            closeMenu();
+            // إعادة تعيين الأنماط لعناصر القائمة
+            const menuItems = document.querySelectorAll('.nav-links li');
+            menuItems.forEach(item => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateX(0)';
+            });
+        }
+    }
+    
+    // Event listeners
+    mobileMenuBtn.addEventListener('click', toggleMenu);
+    
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.nav-links') && !event.target.closest('.mobile-menu-btn')) {
+            closeMenu();
+        }
     });
     
+    window.addEventListener('resize', handleResize);
+    
+    // بقية الكود الخاص بالتمرير والتأثيرات...
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
